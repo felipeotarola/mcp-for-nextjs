@@ -8,8 +8,19 @@ const handler = createMcpHandler(
       "Echo a message",
       { message: z.string() },
       async ({ message }) => ({
-        content: [{ type: "text", text: `Tool echo: ${message}` }],
+        content: [{ type: "text", text: `Tool echo: tjohej ${message}` }],
       })
+    ),
+    server.tool(
+      'roll_dice',
+      'Rolls an N-sided die',
+      { sides: z.number() },
+      async ({ sides }) => {
+        const value = 1 + Math.floor(Math.random() * sides);
+        return {
+          content: [{ type: 'text', text: `🎲 You rolled a ${value}!` }],
+        };
+      }
     );
   },
   {
@@ -17,6 +28,9 @@ const handler = createMcpHandler(
       tools: {
         echo: {
           description: "Echo a message",
+        },
+        roll_dice: {
+          description: "Rolls an die with a given number of sides",
         },
       },
     },
